@@ -1,0 +1,1 @@
+export { IsPalindrome } from './palindrome';
