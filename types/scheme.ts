@@ -39,10 +39,21 @@ type Tokenize<
     : Tokenize<rest, R, `${I}${first}`, flag>
   : Filter<R, '', []>;
 
-type Parse<T extends string[], R extends string[]> = ;
-
 type spacedInput = AddSpaceAroundParan<
   '(begin (define r 10) (* pi (* r r)))',
   ''
 >;
 type tokens = Tokenize<spacedInput, [], '', false>;
+
+const parse = (tokens: string[]) => {
+  const token = tokens.splice(0, 1)[0];
+  if (token === '(') {
+    const res = [];
+    while (tokens[0] !== ')') {
+      res.push(parse(tokens));
+    }
+    tokens.splice(0, 1);
+    return res;
+  }
+  return token;
+};
